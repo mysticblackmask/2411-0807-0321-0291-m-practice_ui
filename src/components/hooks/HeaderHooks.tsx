@@ -1,17 +1,12 @@
 import React, { useState, MouseEvent, ReactNode } from "react";
 import { IconButton, Badge, MenuItem, Menu } from "@mui/material";
 import { AccountCircle, Mail, Notifications } from "@mui/icons-material";
-import { MouseClickFunction } from "../../types/Index";
+import {
+  MouseClickFunction,
+  menuDataType,
+  mobileDataType,
+} from "../../types/Index";
 
-interface menuDataType {
-  text: string;
-}
-interface mobileDataType {
-  text: string;
-  badge?: number;
-  icon: ReactNode;
-  func?: MouseClickFunction;
-}
 const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =

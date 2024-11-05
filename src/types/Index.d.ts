@@ -1,3 +1,14 @@
 import { ScrollProps } from "./App";
-import { MouseClickFunction, LayoutProps } from "./Layout";
-export { ScrollProps, MouseClickFunction, LayoutProps };
+import {
+  MouseClickFunction,
+  LayoutProps,
+  menuDataType,
+  mobileDataType,
+} from "./Layout";
+export {
+  ScrollProps,
+  MouseClickFunction,
+  LayoutProps,
+  menuDataType,
+  mobileDataType,
+};
