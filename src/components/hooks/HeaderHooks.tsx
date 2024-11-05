@@ -27,7 +27,16 @@ const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
   const handleMobileMenuOpen: MouseClickFunction = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-
+  const menuData = [
+    { text: "Profile" },
+    { text: "My account" },
+    { text: "Log out" },
+  ];
+  const mobileData = [
+    { text: "Message", badge: 4, icon: <Mail /> },
+    { text: "Notifications", badge: 17, icon: <Notifications /> },
+    { text: "Account", func: handleProfileMenuOpen, iocn: <AccountCircle /> },
+  ];
   const menuId: string = "primary-search-account-menu";
   const renderMenu: ReactNode = (
     <Menu
@@ -69,9 +78,7 @@ const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
     >
       <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <Mail />
-          </Badge>
+          <Badge badgeContent={4} color="error"></Badge>
         </IconButton>
         <p>Messages</p>
       </MenuItem>
@@ -81,9 +88,7 @@ const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
           aria-label="show 17 new notifications"
           color="inherit"
         >
-          <Badge badgeContent={17} color="error">
-            <Notifications />
-          </Badge>
+          <Badge badgeContent={17} color="error"></Badge>
         </IconButton>
         <p>Notifications</p>
       </MenuItem>
