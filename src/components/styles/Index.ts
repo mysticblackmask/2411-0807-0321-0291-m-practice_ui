@@ -5,7 +5,7 @@ import {
   MtagAppBar,
 } from "./Header";
 import { DrawerHeader, openedMixin, closedMixin } from "./Sider";
-
+import { Main } from "./RoutesIndex";
 export {
   MtagSearch,
   SearchIconWrapper,
@@ -14,4 +14,5 @@ export {
   DrawerHeader,
   openedMixin,
   closedMixin,
+  Main,
 };
