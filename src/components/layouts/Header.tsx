@@ -1,5 +1,12 @@
 import React, { FC, ReactNode } from "react";
-import { Box, Toolbar, IconButton, Typography, Badge } from "@mui/material";
+import {
+  Box,
+  Toolbar,
+  IconButton,
+  Typography,
+  Badge,
+  Switch,
+} from "@mui/material";
 import {
   Menu,
   Search,
@@ -8,6 +15,7 @@ import {
   Notifications,
   More,
 } from "@mui/icons-material";
+import { useDispatch } from "react-redux";
 import { HeaderHooks } from "../hooks/Index";
 import { MouseClickFunction, LayoutProps } from "../../types/Index";
 import {
@@ -16,6 +24,7 @@ import {
   SearchIconWrapper,
   StyledInputBase,
 } from "../styles/Index";
+import { handleLog } from "../../redux/reducer&action/action";
 
 const LayoutHeader: FC<LayoutProps> = ({ open, handleDrawer }) => {
   const [
@@ -33,6 +42,7 @@ const LayoutHeader: FC<LayoutProps> = ({ open, handleDrawer }) => {
     MouseClickFunction,
     MouseClickFunction
   ];
+  const dispatch = useDispatch();
   const handle = (open: number) => {
     if (open < 2) {
       handleDrawer(open + 1);
@@ -77,6 +87,13 @@ const LayoutHeader: FC<LayoutProps> = ({ open, handleDrawer }) => {
             />
           </MtagSearch>
           <Box sx={{ flexGrow: 1 }} />
+          <Switch
+            color="default"
+            onChange={() => {
+              dispatch(handleLog());
+            }}
+            aria-label="login switch"
+          />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton
               size="large"
