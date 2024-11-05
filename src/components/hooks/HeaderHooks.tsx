@@ -3,6 +3,15 @@ import { IconButton, Badge, MenuItem, Menu } from "@mui/material";
 import { AccountCircle, Mail, Notifications } from "@mui/icons-material";
 import { MouseClickFunction } from "../../types/Index";
 
+interface menuDataType {
+  text: string;
+}
+interface mobileDataType {
+  text: string;
+  badge?: number;
+  icon: ReactNode;
+  func?: MouseClickFunction;
+}
 const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
@@ -27,15 +36,20 @@ const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
   const handleMobileMenuOpen: MouseClickFunction = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-  const menuData = [
+  const menuData: Array<menuDataType> = [
     { text: "Profile" },
     { text: "My account" },
     { text: "Log out" },
   ];
-  const mobileData = [
-    { text: "Message", badge: 4, icon: <Mail /> },
-    { text: "Notifications", badge: 17, icon: <Notifications /> },
-    { text: "Account", func: handleProfileMenuOpen, iocn: <AccountCircle /> },
+  const mobileData: mobileDataType[] = [
+    { text: "Message", func: handleMobileMenuClose, badge: 4, icon: <Mail /> },
+    {
+      text: "Notifications",
+      func: handleMobileMenuClose,
+      badge: 17,
+      icon: <Notifications />,
+    },
+    { text: "Account", func: handleProfileMenuOpen, icon: <AccountCircle /> },
   ];
   const menuId: string = "primary-search-account-menu";
   const renderMenu: ReactNode = (
@@ -54,8 +68,11 @@ const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {menuData.map((menu: menuDataType, index: number) => (
+        <MenuItem key={index} onClick={handleMenuClose}>
+          {menu.text}
+        </MenuItem>
+      ))}
     </Menu>
   );
 
@@ -76,34 +93,24 @@ const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error"></Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error"></Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+      {mobileData.map((menu: mobileDataType, index: number) => (
+        <MenuItem key={index} onClick={menu.func}>
+          <IconButton
+            size="large"
+            aria-label={`show ${menu.badge} new ${menu.text}`}
+            color="inherit"
+          >
+            {menu.badge ? (
+              <Badge badgeContent={menu.badge} color="error">
+                {menu.icon}
+              </Badge>
+            ) : (
+              menu.icon
+            )}
+          </IconButton>
+          <p>{menu.text}</p>
+        </MenuItem>
+      ))}
     </Menu>
   );
   return [
