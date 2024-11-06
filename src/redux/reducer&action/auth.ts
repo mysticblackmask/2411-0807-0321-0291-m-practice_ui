@@ -17,7 +17,6 @@ const authReducer = createSlice({
   initialState,
   reducers: {
     handleLog(state) {
-      console.log(state.isAuthenticated);
       state.isAuthenticated = !state.isAuthenticated;
     },
     login(state) {
