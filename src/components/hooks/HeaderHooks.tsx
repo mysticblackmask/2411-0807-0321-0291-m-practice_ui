@@ -1,6 +1,7 @@
 import React, { useState, MouseEvent, ReactNode } from "react";
 import { IconButton, Badge, MenuItem, Menu } from "@mui/material";
 import { AccountCircle, Mail, Notifications } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 import {
   MouseClickFunction,
   menuDataType,
@@ -11,24 +12,19 @@ const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     useState<null | HTMLElement>(null);
-
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  const handleProfileMenuOpen: MouseClickFunction = (event) => {
+  const menuOpen: MouseClickFunction = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const handleMobileMenuClose = () => {
+  const mobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
-
-  const handleMenuClose = () => {
+  const menuClose = () => {
     setAnchorEl(null);
-    handleMobileMenuClose();
+    mobileMenuClose();
   };
-
-  const handleMobileMenuOpen: MouseClickFunction = (event) => {
+  const mobileMenuOpen: MouseClickFunction = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
   const menuData: Array<menuDataType> = [
@@ -37,14 +33,21 @@ const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
     { text: "Log out" },
   ];
   const mobileData: mobileDataType[] = [
-    { text: "Message", func: handleMobileMenuClose, badge: 4, icon: <Mail /> },
+    {
+      text: "Message",
+      url: "/message",
+      func: menuClose,
+      badge: 4,
+      icon: <Mail />,
+    },
     {
       text: "Notifications",
-      func: handleMobileMenuClose,
+      url: "notification",
       badge: 17,
+      func: menuClose,
       icon: <Notifications />,
     },
-    { text: "Account", func: handleProfileMenuOpen, icon: <AccountCircle /> },
+    { text: "Account", func: menuOpen, icon: <AccountCircle /> },
   ];
   const menuId: string = "primary-search-account-menu";
   const renderMenu: ReactNode = (
@@ -61,16 +64,13 @@ const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
         horizontal: "right",
       }}
       open={isMenuOpen}
-      onClose={handleMenuClose}
+      onClose={menuClose}
     >
       {menuData.map((menu: menuDataType, index: number) => (
-        <MenuItem key={index} onClick={handleMenuClose}>
-          {menu.text}
-        </MenuItem>
+        <MenuItem key={index}>{menu.text}</MenuItem>
       ))}
     </Menu>
   );
-
   const mobileMenuId: string = "primary-search-account-menu-mobile";
   const renderMobileMenu: ReactNode = (
     <Menu
@@ -86,7 +86,7 @@ const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
         horizontal: "right",
       }}
       open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
+      onClose={mobileMenuClose}
     >
       {mobileData.map((menu: mobileDataType, index: number) => (
         <MenuItem key={index} onClick={menu.func}>
@@ -113,8 +113,8 @@ const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
     renderMenu,
     mobileMenuId,
     renderMobileMenu,
-    handleProfileMenuOpen,
-    handleMobileMenuOpen,
+    menuOpen,
+    mobileMenuOpen,
   ];
 };
 

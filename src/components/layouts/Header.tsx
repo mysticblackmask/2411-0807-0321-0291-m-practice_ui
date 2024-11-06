@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC, ChangeEvent, ReactNode } from "react";
 import {
   Box,
   Toolbar,
@@ -15,7 +15,6 @@ import {
   Notifications,
   More,
 } from "@mui/icons-material";
-import { useDispatch } from "react-redux";
 import { HeaderHooks } from "../hooks/Index";
 import { MouseClickFunction, LayoutProps } from "../../types/Index";
 import {
@@ -24,7 +23,9 @@ import {
   SearchIconWrapper,
   StyledInputBase,
 } from "../styles/Index";
-import { handleLog } from "../../redux/reducer&action/action";
+import { handleSearch, handleLog } from "../../redux/reducer&action/action";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../../redux/store";
 
 const LayoutHeader: FC<LayoutProps> = ({ open, handleDrawer }) => {
   const [
@@ -32,8 +33,8 @@ const LayoutHeader: FC<LayoutProps> = ({ open, handleDrawer }) => {
     renderMenu,
     mobileMenuId,
     renderMobileMenu,
-    handleProfileMenuOpen,
-    handleMobileMenuOpen,
+    menuOpen,
+    mobileMenuOpen,
   ] = HeaderHooks(null) as [
     string,
     ReactNode,
@@ -43,7 +44,8 @@ const LayoutHeader: FC<LayoutProps> = ({ open, handleDrawer }) => {
     MouseClickFunction
   ];
   const dispatch = useDispatch();
-  const handle = (open: number) => {
+  const isLogined = useAppSelector((state) => state.auth.isAuthenticated);
+  const handleClick = (open: number) => {
     if (open < 2) {
       handleDrawer(open + 1);
     } else {
@@ -63,9 +65,10 @@ const LayoutHeader: FC<LayoutProps> = ({ open, handleDrawer }) => {
             color="inherit"
             aria-label="open drawer"
             onClick={() => {
-              handle(open);
+              handleClick(open);
             }}
             sx={[{ mr: 2 }]}
+            disabled={isLogined ? false : true}
           >
             <Menu />
           </IconButton>
@@ -83,6 +86,11 @@ const LayoutHeader: FC<LayoutProps> = ({ open, handleDrawer }) => {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
+              onChange={(
+                event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+              ) => {
+                dispatch(handleSearch(event.target.value));
+              }}
               inputProps={{ "aria-label": "search" }}
             />
           </MtagSearch>
@@ -94,48 +102,52 @@ const LayoutHeader: FC<LayoutProps> = ({ open, handleDrawer }) => {
             }}
             aria-label="login switch"
           />
-          <Box sx={{ display: { xs: "none", md: "flex" } }}>
-            <IconButton
-              size="large"
-              aria-label="show 4 new mails"
-              color="inherit"
-            >
-              <Badge badgeContent={4} color="error">
-                <Mail />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <Notifications />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls={mobileMenuId}
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <More />
-            </IconButton>
-          </Box>
+          {isLogined ? (
+            <>
+              <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                <IconButton
+                  size="large"
+                  aria-label="show 4 new mails"
+                  color="inherit"
+                >
+                  <Badge badgeContent={4} color="error">
+                    <Mail />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  size="large"
+                  aria-label="show 17 new notifications"
+                  color="inherit"
+                >
+                  <Badge badgeContent={17} color="error">
+                    <Notifications />
+                  </Badge>
+                </IconButton>
+                <IconButton
+                  size="large"
+                  aria-label="account of current user"
+                  aria-controls={menuId}
+                  aria-haspopup="true"
+                  onClick={menuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+              </Box>
+              <Box sx={{ display: { xs: "flex", md: "none" } }}>
+                <IconButton
+                  size="large"
+                  aria-label="show more"
+                  aria-controls={mobileMenuId}
+                  aria-haspopup="true"
+                  onClick={mobileMenuOpen}
+                  color="inherit"
+                >
+                  <More />
+                </IconButton>
+              </Box>
+            </>
+          ) : null}
         </Toolbar>
       </MtagAppBar>
       {renderMobileMenu}

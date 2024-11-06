@@ -11,5 +11,6 @@ export interface mobileDataType {
   text: string;
   badge?: number;
   icon: ReactNode;
-  func?: MouseClickFunction;
+  func: MouseClickFunction;
+  url?: string;
 }
