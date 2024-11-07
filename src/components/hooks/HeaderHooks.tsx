@@ -1,12 +1,12 @@
 import React, { useState, MouseEvent, ReactNode } from "react";
 import { IconButton, Badge, MenuItem, Menu } from "@mui/material";
-import { AccountCircle, Mail, Notifications } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import {
   MouseClickFunction,
   menuDataType,
   mobileDataType,
 } from "../../types/Index";
+import { HeaderHooksData } from "../constants/Index";
 
 const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -27,28 +27,11 @@ const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
   const mobileMenuOpen: MouseClickFunction = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-  const menuData: Array<menuDataType> = [
-    { text: "Profile" },
-    { text: "My account" },
-    { text: "Log out" },
-  ];
-  const mobileData: mobileDataType[] = [
-    {
-      text: "Message",
-      url: "/message",
-      func: menuClose,
-      badge: 4,
-      icon: <Mail />,
-    },
-    {
-      text: "Notifications",
-      url: "notification",
-      badge: 17,
-      func: menuClose,
-      icon: <Notifications />,
-    },
-    { text: "Account", func: menuOpen, icon: <AccountCircle /> },
-  ];
+  const [menuData, mobileData, color, badge] = HeaderHooksData(
+    menuClose,
+    menuOpen
+  );
+
   const menuId: string = "primary-search-account-menu";
   const renderMenu: ReactNode = (
     <Menu
@@ -96,7 +79,7 @@ const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
             color="inherit"
           >
             {menu.badge ? (
-              <Badge badgeContent={menu.badge} color="error">
+              <Badge badgeContent={menu.badge} color={color}>
                 {menu.icon}
               </Badge>
             ) : (
@@ -115,6 +98,8 @@ const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
     renderMobileMenu,
     menuOpen,
     mobileMenuOpen,
+    color,
+    badge,
   ];
 };
 
