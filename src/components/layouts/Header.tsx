@@ -15,17 +15,17 @@ import {
   Notifications,
   More,
 } from "@mui/icons-material";
-import { HeaderHooks } from "../hooks/Index";
-import { MouseClickFunction, LayoutProps } from "../../types/Index";
+import { useDispatch } from "react-redux";
 import {
   MtagSearch,
   MtagAppBar,
   SearchIconWrapper,
   StyledInputBase,
 } from "../styles/Index";
-import { handleSearch, handleLog } from "../../redux/reducer&action/action";
-import { useDispatch } from "react-redux";
+import { HeaderHooks } from "../hooks/Index";
 import { useAppSelector } from "../../redux/store";
+import { MouseClickFunction, LayoutProps } from "../../types/Index";
+import { handleSearch, handleLog } from "../../redux/reducer&action/action";
 
 const LayoutHeader: FC<LayoutProps> = ({ open, handleDrawer }) => {
   const [
@@ -35,13 +35,17 @@ const LayoutHeader: FC<LayoutProps> = ({ open, handleDrawer }) => {
     renderMobileMenu,
     menuOpen,
     mobileMenuOpen,
+    color,
+    badge,
   ] = HeaderHooks(null) as [
     string,
     ReactNode,
     string,
     ReactNode,
     MouseClickFunction,
-    MouseClickFunction
+    MouseClickFunction,
+    any,
+    any
   ];
   const dispatch = useDispatch();
   const isLogined = useAppSelector((state) => state.auth.isAuthenticated);
@@ -56,6 +60,7 @@ const LayoutHeader: FC<LayoutProps> = ({ open, handleDrawer }) => {
     <>
       <MtagAppBar
         position="fixed"
+        color={color}
         sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
       >
         <Toolbar>
@@ -110,7 +115,7 @@ const LayoutHeader: FC<LayoutProps> = ({ open, handleDrawer }) => {
                   aria-label="show 4 new mails"
                   color="inherit"
                 >
-                  <Badge badgeContent={4} color="error">
+                  <Badge badgeContent={4} color={badge}>
                     <Mail />
                   </Badge>
                 </IconButton>
@@ -119,7 +124,7 @@ const LayoutHeader: FC<LayoutProps> = ({ open, handleDrawer }) => {
                   aria-label="show 17 new notifications"
                   color="inherit"
                 >
-                  <Badge badgeContent={17} color="error">
+                  <Badge badgeContent={17} color={badge}>
                     <Notifications />
                   </Badge>
                 </IconButton>
