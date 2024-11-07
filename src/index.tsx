@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 
 import { store } from "./redux/store";
 import { Provider } from "react-redux";
+import { ColorProvider } from "./components/contexts/Index";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -13,7 +14,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ColorProvider>
+        <App />
+      </ColorProvider>
     </Provider>
   </React.StrictMode>
 );
