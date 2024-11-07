@@ -8,10 +8,12 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { Mail, Inbox } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import { LayoutProps } from "../../types/Index";
 import { DrawerHeader, openedMixin, closedMixin } from "../styles/Index";
+import { Link } from "react-router-dom";
+import { SiderData } from "../constants/Index";
+import { siderDataType } from "../../types/Index";
 
 const LayoutSider: FC<LayoutProps> = ({ open }) => {
   const MtagDrawer = styled(Drawer, {
@@ -39,6 +41,7 @@ const LayoutSider: FC<LayoutProps> = ({ open }) => {
       },
     ],
   }));
+
   return (
     <MtagDrawer
       variant={open === 0 ? "persistent" : "permanent"}
@@ -47,66 +50,38 @@ const LayoutSider: FC<LayoutProps> = ({ open }) => {
       <DrawerHeader />
       <Divider />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton
-              sx={[
-                { minHeight: 48, px: 2.5 },
-                open > 1
-                  ? { justifyContent: "initial" }
-                  : { justifyContent: "center" },
-              ]}
-            >
-              <ListItemIcon
+        {SiderData().map((data: siderDataType, index: number) => (
+          <Link key={index} className="react-link" to={data.url}>
+            <ListItem disablePadding>
+              <ListItemButton
                 sx={[
-                  {
-                    minWidth: 0,
-                    justifyContent: "center",
-                  },
-                  open > 1 ? { mr: 3 } : { mr: "auto" },
+                  { minHeight: 48, px: 2.5 },
+                  open > 1
+                    ? { justifyContent: "initial" }
+                    : { justifyContent: "center" },
                 ]}
               >
-                {index % 2 === 0 ? <Inbox /> : <Mail />}
-              </ListItemIcon>
-              <ListItemText
-                primary={text}
-                sx={[open > 1 ? { opacity: 1 } : { opacity: 0 }]}
-              />
-            </ListItemButton>
-          </ListItem>
+                <ListItemIcon
+                  sx={[
+                    {
+                      minWidth: 0,
+                      justifyContent: "center",
+                    },
+                    open > 1 ? { mr: 3 } : { mr: "auto" },
+                  ]}
+                >
+                  {data.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={data.text}
+                  sx={[open > 1 ? { opacity: 1 } : { opacity: 0 }]}
+                />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         ))}
       </List>
-      <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem key={text} disablePadding>
-            <ListItemButton
-              sx={[
-                { minHeight: 48, px: 2.5 },
-                open > 1
-                  ? { justifyContent: "initial" }
-                  : { justifyContent: "center" },
-              ]}
-            >
-              <ListItemIcon
-                sx={[
-                  {
-                    minWidth: 0,
-                    justifyContent: "center",
-                  },
-                  open > 1 ? { mr: 3 } : { mr: "auto" },
-                ]}
-              >
-                {index % 2 === 0 ? <Inbox /> : <Mail />}
-              </ListItemIcon>
-              <ListItemText
-                primary={text}
-                sx={[open > 1 ? { opacity: 1 } : { opacity: 0 }]}
-              />
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
+      {/* <Divider /> */}
     </MtagDrawer>
   );
 };
