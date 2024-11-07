@@ -14,3 +14,8 @@ export interface mobileDataType {
   func: MouseClickFunction;
   url?: string;
 }
+export interface siderDataType {
+  text: string;
+  url: string;
+  icon: ReactNode;
+}
