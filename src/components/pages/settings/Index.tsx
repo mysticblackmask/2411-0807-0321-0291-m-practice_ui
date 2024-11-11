@@ -12,12 +12,13 @@ interface colorDataType {
   color: string;
   text: string;
 }
+
 const Index = () => {
   const contextColor = useContext(ColorContext);
-  const [clr, setClr] = useState<string>(contextColor?.color.back);
+  const [clr, setClr] = useState<string>(contextColor.color.back);
   const handleChange = (event: SelectChangeEvent) => {
     setClr(event.target.value);
-    contextColor?.handleColor(event.target.value);
+    contextColor.handleColor(event.target.value);
   };
   const colorData: colorDataType[] = [
     { color: "primary", text: "Blue" },
@@ -33,7 +34,7 @@ const Index = () => {
       <FormControl sx={{ m: 1, minWidth: 120 }} size="small">
         <InputLabel
           id="demo-select-small-label"
-          color={contextColor?.color.back}
+          color={contextColor.color.back}
         >
           Color
         </InputLabel>
@@ -41,13 +42,17 @@ const Index = () => {
           labelId="demo-select-small-label"
           id="demo-select-small"
           value={clr}
-          color={contextColor?.color.back}
           label="Color"
+          color={contextColor.color.back}
           onChange={handleChange}
         >
           {colorData.map((list: colorDataType, index: number) => (
-            <MenuItem key={index} value={list.color}>
-              {list.text}
+            <MenuItem
+              color={contextColor.color.back}
+              key={index}
+              value={list.color}
+            >
+              <span>{list.text}</span>
             </MenuItem>
           ))}
         </Select>

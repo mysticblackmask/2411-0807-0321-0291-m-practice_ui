@@ -15,27 +15,27 @@ export const SiderData = () => {
     {
       text: "Dashboard",
       url: "/dash",
-      icon: <Dashboard color={contextColor?.color.back} />,
+      icon: <Dashboard color={contextColor.color.back} />,
     },
     {
       text: "Forum",
       url: "/forum",
-      icon: <Forum color={contextColor?.color.back} />,
+      icon: <Forum color={contextColor.color.back} />,
     },
     {
       text: "Message",
       url: "/message",
-      icon: <Message color={contextColor?.color.back} />,
+      icon: <Message color={contextColor.color.back} />,
     },
     {
       text: "Profile",
       url: "/profile",
-      icon: <ContactPage color={contextColor?.color.back} />,
+      icon: <ContactPage color={contextColor.color.back} />,
     },
     {
       text: "Setting",
       url: "/setting",
-      icon: <DisplaySettings color={contextColor?.color.back} />,
+      icon: <DisplaySettings color={contextColor.color.back} />,
     },
   ];
   return siderData;
