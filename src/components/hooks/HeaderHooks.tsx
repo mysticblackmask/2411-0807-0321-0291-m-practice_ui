@@ -79,7 +79,7 @@ const HeaderHooks = (event: MouseEvent<HTMLElement> | null) => {
             color="inherit"
           >
             {menu.badge ? (
-              <Badge badgeContent={menu.badge} color={badge}>
+              <Badge badgeContent={menu.badge} color={color}>
                 {menu.icon}
               </Badge>
             ) : (

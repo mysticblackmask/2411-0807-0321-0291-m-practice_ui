@@ -24,25 +24,25 @@ export const HeaderHooksData = (
       url: "/message",
       func: menuClose,
       badge: 4,
-      icon: <Mail color={contextColor?.color.back} />,
+      icon: <Mail color={contextColor.color.back} />,
     },
     {
       text: "Notifications",
       url: "notification",
       badge: 17,
       func: menuClose,
-      icon: <Notifications color={contextColor?.color.back} />,
+      icon: <Notifications color={contextColor.color.back} />,
     },
     {
       text: "Account",
       func: menuOpen,
-      icon: <AccountCircle color={contextColor?.color.back} />,
+      icon: <AccountCircle color={contextColor.color.back} />,
     },
   ];
   return [
     menuData,
     mobileData,
-    contextColor?.color.back,
-    contextColor?.color.badge,
+    contextColor.color.back,
+    contextColor.color.badge,
   ];
 };
