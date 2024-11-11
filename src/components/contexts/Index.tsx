@@ -1,11 +1,12 @@
 import { useState, createContext, ReactNode } from "react";
-import clr from "./themes/Index";
+import { clr } from "./themes/Index";
 import { ColorContextType } from "./contexts";
 import { themeType } from "./themes/theme";
 
-export const ColorContext = createContext<ColorContextType | undefined>(
-  undefined
-);
+export const ColorContext = createContext<ColorContextType>({
+  color: clr.primary,
+  handleColor: (value?: string) => {},
+});
 
 export const ColorProvider = ({ children }: { children: ReactNode }) => {
   const [color, setColor] = useState<themeType>(clr.primary);
