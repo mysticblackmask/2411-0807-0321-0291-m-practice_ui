@@ -1,24 +1,11 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  ReactNode,
-  SetStateAction,
-} from "react";
-import {
-  Grid2,
-  styled,
-  Paper,
-  Box,
-  LinearProgress,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import React, { useState } from "react";
+import { Grid2, styled, Paper, Box, useTheme } from "@mui/material";
 import { PieChart, useDrawingArea } from "@mui/x-charts";
 import DashImages from "./Images";
 import { DashChart } from "./Chart";
 import DashTable from "./Table";
-import { ArrayNumbers, randomNumber } from "../../../utils/Funcs";
+import DashProgressBar from "./ProgressBar";
+import { ArrayNumbers } from "../../../utils/Funcs";
 import { leng } from "../../constants/DashImage";
 
 export interface chartDataType {
@@ -66,7 +53,6 @@ function PieCenterLabel({ children }: { children: React.ReactNode }) {
 }
 const DashIndex = () => {
   const theme = useTheme();
-
   const chartColors = [
     theme.palette.primary.light,
     theme.palette.error.light,
@@ -75,29 +61,6 @@ const DashIndex = () => {
     theme.palette.success.light,
     theme.palette.info.light,
   ];
-  const [progress, setProgress] = useState<number>(0);
-  const [buffer, setBuffer] = useState<number>(1);
-  const timerRef = useRef<number>(0);
-  const progressRef = useRef(() => {});
-  useEffect(() => {
-    timerRef.current = window.setInterval(() => {
-      progressRef.current();
-    }, 150);
-    return () => {
-      clearInterval(timerRef.current);
-    };
-  }, []);
-  useEffect(() => {
-    progressRef.current = () => {
-      if (progress < 100) {
-        setProgress(progress + 1);
-        const newBuffer = progress + randomNumber(5, 1);
-        setBuffer(newBuffer > 100 ? 100 : newBuffer);
-      } else {
-        clearInterval(timerRef.current);
-      }
-    };
-  });
 
   const imageItems = imageData.map((e: any) => ({
     ...e,
@@ -158,20 +121,7 @@ const DashIndex = () => {
               <PieCenterLabel>ASD</PieCenterLabel>
             </PieChart>
             <Box sx={{ display: "flex", alignItems: "center" }}>
-              <Box sx={{ width: "100%", mr: 1 }}>
-                <LinearProgress
-                  sx={{ height: 10, borderRadius: 5 }}
-                  variant="buffer"
-                  value={progress}
-                  valueBuffer={buffer}
-                />
-              </Box>
-              <Box>
-                <Typography
-                  variant="body2"
-                  sx={{ color: "text.secondary" }}
-                >{`${Math.round(progress)}%`}</Typography>
-              </Box>
+              <DashProgressBar pgr={100} />
             </Box>
           </Paper>
         </Grid2>
