@@ -1,6 +1,11 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).\
+
+## `Install Correct Version`
+
+You start to the project to install npm modules.
+node --version 22.11.0
 
 ## Available Scripts
 
